@@ -76,6 +76,16 @@ app.post('/ghost/add', (req, res) => {
     .catch(err => console.error(err))
 })
 
+app.get('/ghost', async (req, res) => {
+    const ghosts = await Ghost.find({})
+    res.json(ghosts)
+})
+
+app.get('/ghost/:id', async (req, res) => {
+    const ghost = await Ghost.findById(req.params.id)
+    res.json(ghost)
+})
+
 // app.get('/bylocation', async (req, res) => {
 //     const county = await County.find({})
 //     res.json(county)
