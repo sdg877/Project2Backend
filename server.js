@@ -86,6 +86,61 @@ app.get('/ghost/:id', async (req, res) => {
     res.json(ghost)
 })
 
+
+app.post('/ufo/add', (req, res) => {
+    const ufo = req.body
+    const alien = new UFO({
+        date: ufo.date,
+        description: ufo.description,
+        town: ufo.town,
+        county: ufo.county
+    })
+
+    alien.save()
+    .then(() => {
+        console.log('UFO was saved')
+        res.sendStatus(200)
+    })
+    .catch(err => console.error(err))
+})
+
+app.get('/ufo', async (req, res) => {
+    const ufos = await UFO.find({})
+    res.json(ufos)
+})
+
+app.get('/ufo/:id', async (req, res) => {
+    const ufo = await UFO.findById(req.params.id)
+    res.json(ufo)
+})
+
+app.post('/cryptid/add', (req, res) => {
+    const cryptid = req.body
+    const bigfoot = new Cryptid({
+        date: cryptid.date,
+        description: cryptid.description,
+        town: cryptid.town,
+        county: cryptid.county
+    })
+
+    bigfoot.save()
+    .then(() => {
+        console.log('Cryptid was saved')
+        res.sendStatus(200)
+    })
+    .catch(err => console.error(err))
+})
+
+app.get('/cryptid', async (req, res) => {
+    const cryptids = await Cryptid.find({})
+    res.json(cryptids)
+})
+
+app.get('/cryptid/:id', async (req, res) => {
+    const cryptid = await Cryptid.findById(req.params.id)
+    res.json(cryptid)
+})
+
 // app.get('/bylocation', async (req, res) => {
 //     const county = await County.find({})
 //     res.json(county)
@@ -119,31 +174,3 @@ app.get('/ghost/:id', async (req, res) => {
 //         .catch(err => console.error(err))
 //     }
 // })
-
-
-app.post('/ufo/add', (req, res) => {
-    const ufo = req.body
-    const alien = new UFO({
-        date: ufo.date,
-        description: ufo.description,
-        town: ufo.town,
-        county: ufo.county
-    })
-
-    alien.save()
-    .then(() => {
-        console.log('UFO was saved')
-        res.sendStatus(200)
-    })
-    .catch(err => console.error(err))
-})
-
-app.get('/ufo', async (req, res) => {
-    const ufos = await Ufo.find({})
-    res.json(ufos)
-})
-
-app.get('/ufo/:id', async (req, res) => {
-    const ufo = await Ufo.findById(req.params.id)
-    res.json(ufo)
-})
