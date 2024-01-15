@@ -94,6 +94,16 @@ app.delete('/ghost/:id', async (req, res) => {
     return res.status(204).json(ghostToDelete)
 })
 
+app.put('/ghost/update/:id', (req, res) => {
+    Ghost.updateOne({"_id": req.params.id}, {description: req.body.description, date: req.body.date, town: req.body.town, county: req.body.county})
+    .then(() => {
+        res.sendStatus(200)
+    })
+    .catch(err => {
+        res.sendStatus(500)
+    })
+})
+
 //UFOs
 app.post('/ufo/add', (req, res) => {
     const ufo = req.body
@@ -127,6 +137,17 @@ app.delete('/ufo/:id', async (req, res) => {
     return res.status(204).json(ufoToDelete)
 })
 
+app.put('/ufo/update/:id', (req, res) => {
+    UFO.updateOne({"_id": req.params.id}, {description: req.body.description, date: req.body.date, town: req.body.town, county: req.body.county})
+    .then(() => {
+        res.sendStatus(200)
+    })
+    .catch(err => {
+        res.sendStatus(500)
+    })
+})
+
+
 //Cryptids
 app.post('/cryptid/add', (req, res) => {
     const cryptid = req.body
@@ -158,6 +179,16 @@ app.get('/cryptid/:id', async (req, res) => {
 app.delete('/cryptid/:id', async (req, res) => {
     const cryptidToDelete = await Cryptid.findByIdAndDelete(req.params.id)
     return res.status(204).json(cryptidToDelete)
+})
+
+app.put('/cryptid/update/:id', (req, res) => {
+    Cryptid.updateOne({"_id": req.params.id}, {description: req.body.description, date: req.body.date, town: req.body.town, county: req.body.county})
+    .then(() => {
+        res.sendStatus(200)
+    })
+    .catch(err => {
+        res.sendStatus(500)
+    })
 })
 
 // app.get('/bylocation', async (req, res) => {
