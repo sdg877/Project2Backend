@@ -3,6 +3,7 @@ import express from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
+import { format } from 'date-fns'
 
 const app = express()
 
@@ -43,10 +44,11 @@ const cryptidSchema = new mongoose.Schema({
     date: String,
     description: String,
     town: String,
-    County: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'County'
-    }
+    county: String
+    // County: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'County'
+    // }
 })
 
 const countySchema = new mongoose.Schema({
@@ -59,6 +61,7 @@ const Cryptid = mongoose.model('Cryptid', cryptidSchema)
 const UFO = mongoose.model('UFO', ufoSchema)
 const Ghost = mongoose.model('Ghost', ghostSchema)
 
+//GHOSTS
 app.post('/ghost/add', (req, res) => {
     const ghost = req.body
     const poltergeist = new Ghost({
@@ -86,7 +89,12 @@ app.get('/ghost/:id', async (req, res) => {
     res.json(ghost)
 })
 
+app.delete('/ghost/:id', async (req, res) => {
+    const ghostToDelete = await Ghost.findByIdAndDelete(req.params.id)
+    return res.status(204).json(ghostToDelete)
+})
 
+//UFOs
 app.post('/ufo/add', (req, res) => {
     const ufo = req.body
     const alien = new UFO({
@@ -114,6 +122,12 @@ app.get('/ufo/:id', async (req, res) => {
     res.json(ufo)
 })
 
+app.delete('/ufo/:id', async (req, res) => {
+    const ufoToDelete = await UFO.findByIdAndDelete(req.params.id)
+    return res.status(204).json(ufoToDelete)
+})
+
+//Cryptids
 app.post('/cryptid/add', (req, res) => {
     const cryptid = req.body
     const bigfoot = new Cryptid({
@@ -139,6 +153,11 @@ app.get('/cryptid', async (req, res) => {
 app.get('/cryptid/:id', async (req, res) => {
     const cryptid = await Cryptid.findById(req.params.id)
     res.json(cryptid)
+})
+
+app.delete('/cryptid/:id', async (req, res) => {
+    const cryptidToDelete = await Cryptid.findByIdAndDelete(req.params.id)
+    return res.status(204).json(cryptidToDelete)
 })
 
 // app.get('/bylocation', async (req, res) => {
