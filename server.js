@@ -119,3 +119,31 @@ app.get('/ghost/:id', async (req, res) => {
 //         .catch(err => console.error(err))
 //     }
 // })
+
+
+app.post('/ufo/add', (req, res) => {
+    const ufo = req.body
+    const alien = new UFO({
+        date: ufo.date,
+        description: ufo.description,
+        town: ufo.town,
+        county: ufo.county
+    })
+
+    alien.save()
+    .then(() => {
+        console.log('UFO was saved')
+        res.sendStatus(200)
+    })
+    .catch(err => console.error(err))
+})
+
+app.get('/ufo', async (req, res) => {
+    const ufos = await Ufo.find({})
+    res.json(ufos)
+})
+
+app.get('/ufo/:id', async (req, res) => {
+    const ufo = await Ufo.findById(req.params.id)
+    res.json(ufo)
+})
