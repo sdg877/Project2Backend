@@ -51,16 +51,22 @@ const countySchema = new mongoose.Schema({
     county: { type: String, unique: true }
 })
 
-// const countySchema = new mongoose.Schema({
-//     county: String
-// })
-
-
+const userSchema = new mongoose.Schema({
+    userEmail: {
+        type: String,
+        required: true
+    },
+    lastLogin: {
+        type: Date,
+        required: true
+    }
+})
 
 const Cryptid = mongoose.model('Cryptid', cryptidSchema)
 const UFO = mongoose.model('UFO', ufoSchema)
 const Ghost = mongoose.model('Ghost', ghostSchema)
 const County = mongoose.model('County', countySchema)
+const User = mongoose.model('User', userSchema)
 
 //GHOSTS
 app.post('/ghost/add', async (req, res) => {
@@ -399,3 +405,26 @@ app.post('/county/add', async (req, res) => {
 //         })
 //         .catch(error => console.error(error))
 //     })
+
+// users
+
+app.post('/user/login', async (req, res) => {
+    const now = new Date()
+
+    if( await User.countDocuments({"userEmail": req.body.userEmail}) === 0) {
+        const newUser = new User ({
+            userEmail: req.body.userEmail,
+            lastLogin: now
+        })
+        newUser.save()
+        .then(() => {
+            res.sentStatus(200)
+        })
+        .catch(err => {
+            res.sendStatus(500)
+        })
+    } else {
+        await User.findOneAndUpdate({"userEmail": req.body.userEmail}, {lastLogin: now})
+        res.sendStatus(200)
+    }
+})
