@@ -3,8 +3,11 @@ import express from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
+// import moment from 'moment'
 
 const app = express()
+
+// const formattedDate = moment().format('DDMMYYYY')
 
 app.use(cors())
 app.use(bodyParser.json())
@@ -98,23 +101,6 @@ app.post('/ghost/add', async (req, res) => {
     }
 })
 
-// app.post('/ghost/add', (req, res) => {
-//     const ghost = req.body
-//     const poltergeist = new Ghost({
-//         date: ghost.date,
-//         description: ghost.description,
-//         town: ghost.town,
-//         county: ghost.county
-//     })
-
-//     poltergeist.save()
-//     .then(() => {
-//         console.log('Ghost was saved')
-//         res.sendStatus(200)
-//     })
-//     .catch(err => console.error(err))
-// })
-
 app.get('/ghost', async (req, res) => {
     const ghosts = await Ghost.find({})
     res.json(ghosts)
@@ -158,17 +144,6 @@ app.put('/ghost/update/:id', async (req, res) => {
     }
 })
 
-
-// app.put('/ghost/update/:id', (req, res) => {
-//     Ghost.updateOne({"_id": req.params.id}, {description: req.body.description, date: req.body.date, town: req.body.town, county: req.body.county})
-//     .then(() => {
-//         res.sendStatus(200)
-//     })
-//     .catch(err => {
-//         res.sendStatus(500)
-//     })
-// })
-
 //UFOs
 app.post('/ufo/add', async (req, res) => {
     if(await County.countDocuments({"county": req.body.county}) === 0) {
@@ -198,23 +173,6 @@ app.post('/ufo/add', async (req, res) => {
         .catch(err => console.error(err))
     }
 })
-
-// app.post('/ufo/add', (req, res) => {
-//     const ufo = req.body
-//     const alien = new UFO({
-//         date: ufo.date,
-//         description: ufo.description,
-//         town: ufo.town,
-//         county: ufo.county
-//     })
-
-//     alien.save()
-//     .then(() => {
-//         console.log('UFO was saved')
-//         res.sendStatus(200)
-//     })
-//     .catch(err => console.error(err))
-// })
 
 app.get('/ufo', async (req, res) => {
     const ufos = await UFO.find({})
@@ -254,16 +212,6 @@ app.put('/ufo/update/:id', async (req, res) => {
     }
 })
 
-// app.put('/ufo/update/:id', (req, res) => {
-//     UFO.updateOne({"_id": req.params.id}, {description: req.body.description, date: req.body.date, town: req.body.town, county: req.body.county})
-//     .then(() => {
-//         res.sendStatus(200)
-//     })
-//     .catch(err => {
-//         res.sendStatus(500)
-//     })
-// })
-
 
 //Cryptids
 app.post('/cryptid/add', async (req, res) => {
@@ -294,23 +242,6 @@ app.post('/cryptid/add', async (req, res) => {
         .catch(err => console.error(err))
     }
 })
-
-// app.post('/cryptid/add', (req, res) => {
-//     const cryptid = req.body
-//     const bigfoot = new Cryptid({
-//         date: cryptid.date,
-//         description: cryptid.description,
-//         town: cryptid.town,
-//         county: cryptid.county
-//     })
-
-//     bigfoot.save()
-//     .then(() => {
-//         console.log('Cryptid was saved')
-//         res.sendStatus(200)
-//     })
-//     .catch(err => console.error(err))
-// })
 
 app.get('/cryptid', async (req, res) => {
     const cryptids = await Cryptid.find({})
@@ -388,24 +319,6 @@ app.post('/county/add', async (req, res) => {
     }
 });
 
-// app.get('/bylocation', async (req, res) => {
-//     const county = await County.find({})
-//     res.json(county)
-// })
-
-
-// app.post('/county/add', (req, res) => {
-//     const newCounty = req.body
-
-//     const countyNew = new County ({county: newCounty.county})
-//     countyNew.save()
-//         .then(() => {
-//             console.log(`new county ${newCounty.county} was added to the database`)
-//             res.sendStatus(200)
-//         })
-//         .catch(error => console.error(error))
-//     })
-
 // users
 
 app.post('/user/login', async (req, res) => {
@@ -425,6 +338,6 @@ app.post('/user/login', async (req, res) => {
         })
     } else {
         await User.findOneAndUpdate({"userEmail": req.body.userEmail}, {lastLogin: now})
-        res.sendStatus(200)
+        res.sendStatus
     }
 })
