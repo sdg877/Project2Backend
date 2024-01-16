@@ -24,7 +24,7 @@ const ghostSchema = new mongoose.Schema({
     date: Number,
     description: String,
     town: String,
-    County: {
+    county: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'County'
     }
@@ -34,7 +34,7 @@ const ufoSchema = new mongoose.Schema({
     date: String,
     description: String,
     town: String,
-    County: {
+    county: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'County'
     }
@@ -44,7 +44,7 @@ const cryptidSchema = new mongoose.Schema({
     date: String,
     description: String,
     town: String,
-    County: {
+    county: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'County'
     }
@@ -107,18 +107,13 @@ app.get('/ghost', async (req, res) => {
 })
 
 app.get('/ghost/:id', async (req, res) => {
-    const ghost = await Ghost.findById(req.params.id)
+    const ghost = await Ghost.findById(req.params.id).populate('county')
     res.json(ghost)
 })
 
 app.delete('/ghost/:id', async (req, res) => {
     const ghostToDelete = await Ghost.findByIdAndDelete(req.params.id)
     return res.status(204).json(ghostToDelete)
-})
-
-app.get('/book/:id', async (req, res) => {
-    const book = await Book.findById(req.params.id).populate('author')
-    res.json(book)
 })
 
 app.put('/ghost/update/:id', async (req, res) => {
@@ -180,7 +175,7 @@ app.get('/ufo', async (req, res) => {
 })
 
 app.get('/ufo/:id', async (req, res) => {
-    const ufo = await UFO.findById(req.params.id)
+    const ufo = await UFO.findById(req.params.id).populate('county')
     res.json(ufo)
 })
 
@@ -249,7 +244,7 @@ app.get('/cryptid', async (req, res) => {
 })
 
 app.get('/cryptid/:id', async (req, res) => {
-    const cryptid = await Cryptid.findById(req.params.id)
+    const cryptid = await Cryptid.findById(req.params.id).populate('county')
     res.json(cryptid)
 })
 
@@ -283,19 +278,28 @@ app.put('/cryptid/update/:id', async (req, res) => {
 
 
 //county
-    app.get('/search/:county', async (req, res) => {
-        const county = req.params.county
-        const cryptids = await Cryptid.find({ county })
-        const ufos = await UFO.find({ county })
-        const ghosts = await Ghost.find({ county})
+app.get('/search/:county', async (req, res) => {
+    const county = req.params.county
+    const cryptids = await Cryptid.find({ county })
+    const ufos = await UFO.find({ county })
+    const ghosts = await Ghost.find({ county })
 
-        const sightings = {
-            cryptids,
-            ufos,
-            ghosts
+    const findCounty = await County.findById(county)
+
+    const sightings = {
+        cryptids,
+        ufos,
+        ghosts,
+        findCounty
     }
     res.json(sightings)
 })
+
+app.get('/counties', async (req, res) => {
+    const counties = await County.find({})
+    res.json(counties)
+})
+
 
 app.post('/county/add', async (req, res) => {
     const newCounty = req.body
