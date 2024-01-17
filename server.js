@@ -71,6 +71,7 @@ const Ghost = mongoose.model('Ghost', ghostSchema)
 const County = mongoose.model('County', countySchema)
 const User = mongoose.model('User', userSchema)
 
+
 //GHOSTS
 app.post('/ghost/add', async (req, res) => {
     if(await County.countDocuments({"county": req.body.county}) === 0) {
@@ -107,9 +108,9 @@ app.get('/ghost', async (req, res) => {
 })
 
 app.get('/ghost/:id', async (req, res) => {
-    const ghost = await Ghost.findById(req.params.id).populate('county')
-    res.json(ghost)
-})
+        const ghost = await Ghost.findById(req.params.id).populate('county')
+        res.json(ghost)
+    })
 
 app.delete('/ghost/:id', async (req, res) => {
     const ghostToDelete = await Ghost.findByIdAndDelete(req.params.id)
@@ -345,3 +346,35 @@ app.post('/user/login', async (req, res) => {
         res.sendStatus
     }
 })
+
+// const User = require('./models/user')
+
+// const userIdToMakeAdmin = '65a78c4ae77de11d27973777'
+
+
+// User.updateOne({ _id: userIdToMakeAdmin }, { $set: { isAdmin: true } }, (err, result) => {
+//   if (err) {
+//     console.error('Error setting admin status:', err)
+//   } else {
+//     console.log('Admin status set successfully.')
+//   }
+// });
+
+// const checkAdminPermission = async (req, res, next) => {
+//     const { userId } = req.user
+  
+//     try {
+//       const user = await User.findById(userId)
+  
+//       if (user && user.isAdmin) {
+//         req.isAdmin = true;
+//       } else {
+//         req.isAdmin = false;
+//       }
+  
+//       return next();
+//     } catch (error) {
+//       console.error('Error checking admin permission:', error)
+//       res.status(500).json({ message: 'Internal Server Error' })
+//     }
+//   }
