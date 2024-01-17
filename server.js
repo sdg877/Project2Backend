@@ -27,6 +27,10 @@ const ghostSchema = new mongoose.Schema({
     county: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'County'
+    },
+    addedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }
 })
 
@@ -37,6 +41,10 @@ const ufoSchema = new mongoose.Schema({
     county: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'County'
+    },
+    addedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }
 })
 
@@ -47,6 +55,10 @@ const cryptidSchema = new mongoose.Schema({
     county: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'County'
+    },
+    addedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }
 })
 
@@ -62,6 +74,10 @@ const userSchema = new mongoose.Schema({
     lastLogin: {
         type: Date,
         required: true
+    },
+    uniqueSub: {
+        required: true,
+        type: String
     }
 })
 
@@ -87,11 +103,13 @@ app.post('/ghost/add', async (req, res) => {
 
     async function addGhost(reqCounty) {
         const county = await County.findOne({"county": reqCounty})
+        const findUser = await User.findOne({"userEmail": req.body.userEmail})
         const ghost = new Ghost({
             date: req.body.date,
             description: req.body.description,
             town: req.body.town,
-            county: county
+            county: county,
+            addedBy: findUser._id
         })
         ghost.save()
         .then(() => {
@@ -103,7 +121,7 @@ app.post('/ghost/add', async (req, res) => {
 })
 
 app.get('/ghost', async (req, res) => {
-    const ghosts = await Ghost.find({})
+    const ghosts = await Ghost.find({}).populate("addedBy")
     res.json(ghosts)
 })
 
@@ -155,11 +173,13 @@ app.post('/ufo/add', async (req, res) => {
 
     async function addUFO(reqCounty) {
         const county = await County.findOne({"county": req.body.county})
+        const findUser = await User.findOne({"userEmail": req.body.userEmail})
         const ufo = new UFO({
             date: req.body.date,
             description: req.body.description,
             town: req.body.town,
-            county: county
+            county: county,
+            addedBy: findUser._id
         })
         ufo.save()
         .then(() => {
@@ -224,11 +244,13 @@ app.post('/cryptid/add', async (req, res) => {
 
     async function addCryptid(reqCounty) {
         const county = await County.findOne({"county": req.body.county})
+        const findUser = await User.findOne({"userEmail": req.body.userEmail})
         const cryptid = new Cryptid({
             date: req.body.date,
             description: req.body.description,
             town: req.body.town,
-            county: county
+            county: county,
+            addedBy: findUser._id
         })
         cryptid.save()
         .then(() => {
@@ -332,49 +354,18 @@ app.post('/user/login', async (req, res) => {
     if( await User.countDocuments({"userEmail": req.body.userEmail}) === 0) {
         const newUser = new User ({
             userEmail: req.body.userEmail,
-            lastLogin: now
+            lastLogin: now,
+            uniqueSub: req.body.uniqueSub
         })
         newUser.save()
         .then(() => {
-            res.sentStatus(200)
+            res.sendStatus(200)
         })
         .catch(err => {
             res.sendStatus(500)
         })
     } else {
-        await User.findOneAndUpdate({"userEmail": req.body.userEmail}, {lastLogin: now})
+        await User.findOneAndUpdate({"userEmail": req.body.userEmail}, {lastLogin: now}, {"uniqueSub": req.body.uniqueSub})
         res.sendStatus
     }
 })
-
-// const User = require('./models/user')
-
-// const userIdToMakeAdmin = '65a78c4ae77de11d27973777'
-
-
-// User.updateOne({ _id: userIdToMakeAdmin }, { $set: { isAdmin: true } }, (err, result) => {
-//   if (err) {
-//     console.error('Error setting admin status:', err)
-//   } else {
-//     console.log('Admin status set successfully.')
-//   }
-// });
-
-// const checkAdminPermission = async (req, res, next) => {
-//     const { userId } = req.user
-  
-//     try {
-//       const user = await User.findById(userId)
-  
-//       if (user && user.isAdmin) {
-//         req.isAdmin = true;
-//       } else {
-//         req.isAdmin = false;
-//       }
-  
-//       return next();
-//     } catch (error) {
-//       console.error('Error checking admin permission:', error)
-//       res.status(500).json({ message: 'Internal Server Error' })
-//     }
-//   }
