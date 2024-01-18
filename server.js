@@ -191,7 +191,7 @@ app.post('/ufo/add', async (req, res) => {
 })
 
 app.get('/ufo', async (req, res) => {
-    const ufos = await UFO.find({})
+    const ufos = await UFO.find({}).populate('addedBy')
     res.json(ufos)
 })
 
@@ -262,7 +262,7 @@ app.post('/cryptid/add', async (req, res) => {
 })
 
 app.get('/cryptid', async (req, res) => {
-    const cryptids = await Cryptid.find({})
+    const cryptids = await Cryptid.find({}).populate('addedBy')
     res.json(cryptids)
 })
 
