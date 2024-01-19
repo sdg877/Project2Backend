@@ -113,7 +113,6 @@ app.post('/ghost/add', async (req, res) => {
         })
         ghost.save()
         .then(() => {
-            console.log('new ghost added')
             res.sendStatus(200)
         })
         .catch(err => console.error(err))
@@ -183,7 +182,6 @@ app.post('/ufo/add', async (req, res) => {
         })
         ufo.save()
         .then(() => {
-            console.log('new ufo added')
             res.sendStatus(200)
         })
         .catch(err => console.error(err))
@@ -254,7 +252,6 @@ app.post('/cryptid/add', async (req, res) => {
         })
         cryptid.save()
         .then(() => {
-            console.log('new cryptid added')
             res.sendStatus(200)
         })
         .catch(err => console.error(err))
