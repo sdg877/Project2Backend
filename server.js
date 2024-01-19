@@ -21,7 +21,7 @@ app.listen(port, () => {
 mongoose.connect(process.env.DATABASE_URL)
 
 const ghostSchema = new mongoose.Schema({
-    date: Number,
+    date: String,
     description: String,
     town: String,
     county: {
