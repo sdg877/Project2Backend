@@ -3,11 +3,10 @@ import express from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
-// import moment from 'moment'
+
 
 const app = express()
 
-// const formattedDate = moment().format('DDMMYYYY')
 
 app.use(cors())
 app.use(bodyParser.json())

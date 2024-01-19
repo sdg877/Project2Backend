@@ -5,13 +5,8 @@ import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import serverless from 'serverless-http'
 
-// import moment from 'moment'
-
-
 
 const api = express()
-
-// const formattedDate = moment().format('DDMMYYYY')
 
 api.use(cors())
 api.use(bodyParser.json())
