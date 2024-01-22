@@ -14,6 +14,11 @@ app.UseCors(x => x
     .SetIsOriginAllowed(origin => true) // allow any origin
     .AllowCredentials());
 
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+     next();
+    });
+
 // server.use(cors({origin: "https://unique-salmiakki-662491.netlify.app/api", credentials: true}))
 
 // api.use(cors())
