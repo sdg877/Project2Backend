@@ -8,9 +8,15 @@ import serverless from 'serverless-http'
 
 const api = express()
 
-server.use(cors({origin: "https://unique-salmiakki-662491.netlify.app/api", credentials: true}))
+app.UseCors(x => x
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .SetIsOriginAllowed(origin => true) // allow any origin
+    .AllowCredentials());
 
-api.use(cors())
+// server.use(cors({origin: "https://unique-salmiakki-662491.netlify.app/api", credentials: true}))
+
+// api.use(cors())
 api.use(bodyParser.json())
 
 mongoose.connect(process.env.DATABASE_URL)
