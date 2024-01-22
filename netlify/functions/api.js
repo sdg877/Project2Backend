@@ -53,7 +53,7 @@ mongoose.connect(process.env.DATABASE_URL)
 const router = Router()
 
 const ghostSchema = new mongoose.Schema({
-    date: Number,
+    date: String,
     description: String,
     town: String,
     county: {
