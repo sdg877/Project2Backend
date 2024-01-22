@@ -8,6 +8,8 @@ import serverless from 'serverless-http'
 
 const api = express()
 
+server.use(cors({origin: "https://unique-salmiakki-662491.netlify.app/", credentials: true}))
+
 api.use(cors())
 api.use(bodyParser.json())
 
