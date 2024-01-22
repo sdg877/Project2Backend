@@ -19,31 +19,6 @@ fetch('https://monumental-marigold-bfeb1f.netlify.app/api/counties', {
   console.error('Error fetching data:', error);
 });
 
-// app.use((req, res, next) => {
-//     res.setHeader("Access-Control-Allow-Origin", "*");
-//     res.setHeader(
-//       "Access-Control-Allow-Methods",
-//       "OPTIONS, GET, POST, PUT, PATCH, DELETE"
-//     );
-//     res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-//     if (req.method === "OPTIONS") {
-//       return res.sendStatus(200);
-//     }
-//     next();
-//   });
-
-// app.UseCors(x => x
-//     .AllowAnyMethod()
-//     .AllowAnyHeader()
-//     .SetIsOriginAllowed(origin => true) // allow any origin
-//     .AllowCredentials());
-
-// app.use((req, res, next) => {
-//     res.header('Access-Control-Allow-Origin', '*');
-//      next();
-//     });
-
-// server.use(cors({origin: "https://unique-salmiakki-662491.netlify.app/api", credentials: true}))
 
 api.use(cors())
 api.use(bodyParser.json())
