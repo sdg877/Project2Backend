@@ -108,7 +108,7 @@ app.post('/ghost/add', async (req, res) => {
             description: req.body.description,
             town: req.body.town,
             county: county,
-            addedBy: findUser._id
+            addedBy: findUser
         })
         ghost.save()
         .then(() => {
