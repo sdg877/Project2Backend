@@ -25,11 +25,14 @@ County listing page:
 Description
 For my Unit 2 project, we were required to build a full-stack application using Node.js, Express, and MongoDB. We could make the application about anything we wanted as long as it met the requirements. I love ghost stories and paranormal sightings so I chose to build an app that allowed people to record these sightings. 
 
-Deployment link
-GitHub Frontend
-GitHub Backend
-Deployed Frontend
-Deployed Backend
+Deployment links
+GitHub Frontend: https://github.com/sdg877/Project2Frontend
+
+GitHub Backend: https://github.com/sdg877/Project2Frontend
+
+Deployed Frontend: https://github.com/sdg877/Project2Frontend
+
+Deployed Backend: https://monumental-marigold-bfeb1f.netlify.app
 
 
 Timeframe
